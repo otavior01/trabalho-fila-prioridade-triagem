@@ -1,13 +1,15 @@
 package lists;
 
 
-public class LinkedList {
+public class PriorityQueue {
 
     private Node list;
+    private Node last;
     private int elementCount;
 
-    public LinkedList() {
+    public PriorityQueue() {
         this.list = null;
+        this.last = null;
         this.elementCount = 0;
     }
 
@@ -19,30 +21,31 @@ public class LinkedList {
         this.list = list;
     }
 
-    public void insertFirst(Node newNode) {
+//    public void insertFirst(Node newNode) {
+//        if (isEmpty()) {
+//            this.list = newNode;
+//        } else {
+//            newNode.setNext(this.list);
+//            this.list = newNode;
+//        }
+//        this.elementCount++;
+//    }
+
+    public void queue(Node newNode) {
         if (isEmpty()) {
             this.list = newNode;
+            this.last = newNode;
+        } else if (this.elementCount == 1){
+            this.list.setNext(newNode);
+            this.last = newNode;
         } else {
-            newNode.setNext(this.list);
-            this.list = newNode;
+            this.last.setNext(newNode);
+            this.last = newNode;
         }
         this.elementCount++;
     }
 
-    public void insertLast(Node newNode) {
-        if (isEmpty()) {
-            this.list = newNode;
-        } else {
-            Node temp = this.list;
-            while (temp.getNext() != null) {
-                temp = temp.getNext();
-            }
-            temp.setNext(newNode);
-        }
-        this.elementCount++;
-    }
-
-    public void removeFirst() {
+    public void dequeue() {
         if (isEmpty()) {
             System.out.println("Empty list!");
         } else {
@@ -52,24 +55,24 @@ public class LinkedList {
 
     }
 
-    public void removeLast() {
-        if (isEmpty()) {
-            System.out.println("Empty list!");
-        } else {
-            if (this.elementCount == 1) {
-                this.list = null;
-            } else {
-                Node temp = this.list;
-                Node previous = this.list;
-                while (temp.getNext() != null) {
-                    previous = temp;
-                    temp = temp.getNext();
-                }
-                previous.setNext(null);
-            }
-            this.elementCount--;
-        }
-    }
+//    public void removeLast() {
+//        if (isEmpty()) {
+//            System.out.println("Empty list!");
+//        } else {
+//            if (this.elementCount == 1) {
+//                this.list = null;
+//            } else {
+//                Node temp = this.list;
+//                Node previous = this.list;
+//                while (temp.getNext() != null) {
+//                    previous = temp;
+//                    temp = temp.getNext();
+//                }
+//                previous.setNext(null);
+//            }
+//            this.elementCount--;
+//        }
+//    }
 
     public void show() {
         if (isEmpty()) {
@@ -82,6 +85,7 @@ public class LinkedList {
                 System.out.print(" -> " + temp.getValue());
             }
             System.out.println(" -> null");
+            System.out.println(" Last -> " + this.last.getValue());
         }
     }
 
@@ -95,7 +99,7 @@ public class LinkedList {
             return null;
         }
         if (position > this.elementCount) {
-            System.out.println("Posicao invalida!");
+            System.out.println("Invalid postion!");
             return null;
         } else {
             Node temp = this.list;
